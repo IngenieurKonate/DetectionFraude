@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Paiement Sécurisé</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #003366;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            color: var(--success-color);
+            font-size: 14px;
+        }
+        
+        .security-badge i {
+            margin-right: 5px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+        
+        .payment-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .card-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icons i {
+            font-size: 30px;
+            margin: 0 10px;
+            color: #666;
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result-fraud {
+            background-color: rgba(220, 53, 69, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+        
+        .result-safe {
+            background-color: rgba(40, 167, 69, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
+        
+        .result-container h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-container i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        
+        .spinner {
+            text-align: center;
+            display: none;
+            margin: 20px 0;
+        }
+        
+        .spinner i {
+            font-size: 30px;
+            color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .payment-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i> SecurePay
+            </div>
+            <div class="security-badge">
+                <i class="fas fa-lock"></i> Connexion sécurisée
+            </div>
+        </header>
+        
+        <h1>Finaliser votre paiement</h1>
+        
+        <div class="card-icons">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-amex"></i>
+            <i class="fab fa-cc-discover"></i>
+        </div>
+        
+        <form id="paymentForm" class="payment-form">
+            <!-- Données essentielles pour le modèle -->
+            <div class="form-group">
+                <label for="merchant">Marchand</label>
+                <input type="text" id="merchant" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Catégorie</label>
+                <select id="category" class="form-control" required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="grocery_pos">Épicerie</option>
+                    <option value="shopping_net">Shopping en ligne</option>
+                    <option value="gas_transport">Carburant/Transport</option>
+                    <option value="misc_pos">Divers (Magasin)</option>
+                    <option value="grocery_net">Épicerie en ligne</option>
+                    <option value="entertainment">Divertissement</option>
+                    <option value="food_dining">Restauration</option>
+                    <option value="health_fitness">Santé et Fitness</option>
+                    <option value="home">Maison</option>
+                    <option value="kids_pets">Enfants et Animaux</option>
+                    <option value="personal_care">Soins personnels</option>
+                    <option value="travel">Voyage</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="amt">Montant (€)</label>
+                <input type="number" id="amt" step="0.01" min="0" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="gender">Genre</label>
+                <select id="gender" class="form-control" required>
+                    <option value="">Sélectionnez</option>
+                    <option value="M">Homme</option>
+                    <option value="F">Femme</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="state">État/Région</label>
+                <input type="text" id="state" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="city_pop">Population de la ville</label>
+                <input type="number" id="city_pop" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="lat">Latitude</label>
+                <input type="number" id="lat" step="0.000001" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="long">Longitude</label>
+                <input type="number" id="long" step="0.000001" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="job">Profession</label>
+                <input type="text" id="job" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="merch_lat">Latitude du marchand</label>
+                <input type="number" id="merch_lat" step="0.000001" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="merch_long">Longitude du marchand</label>
+                <input type="number" id="merch_long" step="0.000001" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Âge</label>
+                <input type="number" id="age" min="18" max="100" class="form-control" required>
+            </div>
+            
+            <!-- Date et heure de la transaction (sera convertie en hour, day_of_week, day, month) -->
+            <div class="form-group full-width">
+                <label for="trans_date_trans_time">Date et heure de la transaction</label>
+                <input type="datetime-local" id="trans_date_trans_time" class="form-control" required>
+            </div>
+            
+            <div class="form-group full-width">
+                <button type="submit" id="submitBtn" class="btn btn-block">
+                    Procéder au paiement
+                </button>
+            </div>
+        </form>
+        
+        <div class="spinner" id="loadingSpinner">
+            <i class="fas fa-circle-notch"></i>
+            <p>Vérification de la transaction en cours...</p>
+        </div>
+        
+        <div id="resultContainer" class="result-container">
+            <!-- Résultat dynamique ici -->
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 SecurePay - Système de paiement sécurisé</p>
+            <p><small>Cette interface est une démonstration et n'effectue pas de paiements réels.</small></p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('paymentForm');
+            const spinner = document.getElementById('loadingSpinner');
+            const resultContainer = document.getElementById('resultContainer');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Afficher le spinner
+                spinner.style.display = 'block';
+                resultContainer.style.display = 'none';
+                
+                // Collecter les données du formulaire
+                const formData = {
+                    merchant: document.getElementById('merchant').value,
+                    category: document.getElementById('category').value,
+                    amt: parseFloat(document.getElementById('amt').value),
+                    gender: document.getElementById('gender').value,
+                    state: document.getElementById('state').value,
+                    lat: parseFloat(document.getElementById('lat').value),
+                    long: parseFloat(document.getElementById('long').value),
+                    city_pop: parseInt(document.getElementById('city_pop').value),
+                    job: document.getElementById('job').value,
+                    merch_lat: parseFloat(document.getElementById('merch_lat').value),
+                    merch_long: parseFloat(document.getElementById('merch_long').value),
+                    trans_date_trans_time: document.getElementById('trans_date_trans_time').value,
+                    age: parseInt(document.getElementById('age').value)
+                };
+                
+                // Envoyer les données au serveur
+                fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Cacher le spinner
+                    spinner.style.display = 'none';
+                    
+                    // Afficher le résultat
+                    resultContainer.style.display = 'block';
+                    
+                    if (data.prediction === 1) {
+                        resultContainer.className = 'result-container result-fraud';
+                        resultContainer.innerHTML = `
+                            <h3><i class="fas fa-exclamation-triangle"></i> Attention : Transaction potentiellement frauduleuse</h3>
+                            <p>Notre système a détecté des anomalies dans cette transaction. Nous avons bloqué votre carte pour vérification</p>
+    
+                        `;
+                    } else {
+                        resultContainer.className = 'result-container result-safe';
+                        resultContainer.innerHTML = `
+                            <h3><i class="fas fa-check-circle"></i> Transaction sécurisée</h3>
+                            <p>Notre système n'a détecté aucune anomalie dans cette transaction.</p>
+                            <p/strong>Merci d'utiliser SecurePay !</strong></p>
+                            <p>Votre paiement de ${formData.amt} € a été traité avec succès.</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    // Cacher le spinner
+                    spinner.style.display = 'none';
+                    
+                    // Afficher l'erreur
+                    resultContainer.style.display = 'block';
+                    resultContainer.className = 'result-container result-fraud';
+                    resultContainer.innerHTML = `
+                        <h3><i class="fas fa-times-circle"></i> Erreur</h3>
+                        <p>Une erreur s'est produite lors du traitement de votre demande : ${error.message}</p>
+                    `;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
