@@ -16,9 +16,9 @@ Ce projet consiste à détecter les fraudes bancaires en temps réel à l’aide
 
 ## Architecture
 
-```plaintext
+
 [Simulateur] → [Kafka] → [Consommateur] → [API ML sur AWS] → [Consommateur] → [Base de données]→ [Interface Banque]
-```
+
 
 ---
 
@@ -35,19 +35,20 @@ Ce projet consiste à détecter les fraudes bancaires en temps réel à l’aide
 
 ## Organisation du projet
 
-```plaintext
+
 Fraud_detect/
 │
 ├── Guide_kafka.pdf                  # Pour réprendre la configuration du cluster
 ├── simulateur_direct.py             # Simulateur qui envoie des données directement au modèle de Ml sans kafka
 ├── simulateur_kafkaProducer.py      # Simulateur de transactions qui envoie des données à kafka
 ├── consommateur_kafka.py            # Consommateur Kafka + appel modèle
+├── backend                            # Dosier déployé sur AWS
    ├── application.py                  # API Flask du modèle
    ├── xgb2_model.joblib               # Modèle ML entraîné
    ├── index.html                      # Interface utilisateur
    ├── requirements.txt                # Dépendances Python
 └── README.md                       # Ce fichier
-```
+
 
 ---
 
