@@ -110,7 +110,7 @@ Fraud_detect/
 ainsi que les bibliothèques nécesaires à l'exécution de ces codes.
 
 
-## ✅ À faire (optionnel)
+## ✅ À faire
 
 - Sauvegarder les prédictions dans une base de données distante
 - Concevoir le dashbord de la banque
