@@ -13,7 +13,12 @@ Ce projet consiste à détecter les fraudes bancaires en temps réel à l’aide
 - Interfaces web pour le client et la banque
 
 ---
+  ## Vidéo Demo
 
+[![Watch the demo on LinkedIn](assets/video-preview.png)](https://www.linkedin.com/posts/bachiroukonate_dans-ce-projet-nous-avons-con%C3%A7u-un-pipeline-activity-7358574774958153728-RRN9?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDyVh8B1pnMiovpY9yK6sQB47mqcYDaftA)
+
+ [Watch the full video on LinkedIn](https://www.linkedin.com/posts/bachiroukonate_dans-ce-projet-nous-avons-con%C3%A7u-un-pipeline-activity-7358574774958153728-RRN9?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDyVh8B1pnMiovpY9yK6sQB47mqcYDaftA)
+ 
 ## Architecture
 
 
